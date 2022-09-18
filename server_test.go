@@ -9,11 +9,11 @@ import (
 func TestPlayerServer(t *testing.T) {
 	t.Run("return Pepper's score", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
-		response := httptest.NewRecorder
+		response := httptest.NewRecorder()
 
-		PlayerServer(request, response)
+		PlayerServer(response, request)
 
-		got := response.Body.string()
+		got := response.Body.String()
 		want := "20"
 
 		if got != want {
