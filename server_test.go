@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,12 +14,7 @@ func TestPlayerServer(t *testing.T) {
 
 		PlayerServer(response, request)
 
-		got := response.Body.String()
-		want := "20"
-
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertResponseBody(t, response.Body.String(), "20")
 	})
 
 	t.Run("return Floyd's score", func(t *testing.T) {
@@ -26,15 +22,18 @@ func TestPlayerServer(t *testing.T) {
 		res := httptest.NewRecorder()
 
 		PlayerServer(res, req)
-		got := res.Body.String()
-		want := "10"
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertResponseBody(t, res.Body.String(), "10")
 	})
 }
 
-func buildServer(t *testing.T) {
+func assertResponseBody(t *testing.T, got, want string) {
 	t.Helper()
+	if got != want {
+		t.Errorf("got %q, want %q", got, want)
+	}
+}
 
+func newGetPlayerScoreRequest(name string) *http.Request {
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
+	return req
 }
