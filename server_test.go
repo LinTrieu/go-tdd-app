@@ -12,7 +12,8 @@ type StubPlayerStore struct {
 }
 
 func (s *StubPlayerStore) GetPlayerScore(name string) int {
-	return s.scores[name]
+	score := s.scores[name]
+	return score
 }
 
 func TestGETPlayers(t *testing.T) {
@@ -26,7 +27,7 @@ func TestGETPlayers(t *testing.T) {
 	server := &PlayerServer{&store}
 
 	t.Run("return Pepper's score", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
+		request := newGetPlayerScoreRequest("Pepper")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
@@ -35,11 +36,11 @@ func TestGETPlayers(t *testing.T) {
 	})
 
 	t.Run("return Floyd's score", func(t *testing.T) {
-		req, _ := http.NewRequest(http.MethodGet, "/players/Floyd", nil)
-		res := httptest.NewRecorder()
+		request := newGetPlayerScoreRequest("Floyd")
+		response := httptest.NewRecorder()
 
-		server.ServeHTTP(res, req)
-		assertResponseBody(t, res.Body.String(), "10")
+		server.ServeHTTP(response, request)
+		assertResponseBody(t, response.Body.String(), "10")
 	})
 }
 
