@@ -15,5 +15,5 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 
 func main() {
 	server := &PlayerServer{&InMemoryPlayerStore{}}
-	log.Fatal(http.ListenAndServe(":5000", server))
+	log.Fatal(http.ListenAndServe(":5001", server))
 }
