@@ -7,8 +7,23 @@ import (
 	"testing"
 )
 
-func TestPlayerServer(t *testing.T) {
-	server := &PlayerServer{}
+type StubPlayerStore struct {
+	scores map[string]int
+}
+
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	return s.scores[name]
+}
+
+func TestGETPlayers(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int{
+			"Pepper": 20,
+			"Floyd":  10,
+		},
+	}
+
+	server := &PlayerServer{&store}
 
 	t.Run("return Pepper's score", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
