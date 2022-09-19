@@ -8,11 +8,13 @@ import (
 )
 
 func TestPlayerServer(t *testing.T) {
+	server := &PlayerServer{}
+
 	t.Run("return Pepper's score", func(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodGet, "/players/Pepper", nil)
 		response := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "20")
 	})
@@ -21,7 +23,7 @@ func TestPlayerServer(t *testing.T) {
 		req, _ := http.NewRequest(http.MethodGet, "/players/Floyd", nil)
 		res := httptest.NewRecorder()
 
-		PlayerServer(res, req)
+		server.ServeHTTP(res, req)
 		assertResponseBody(t, res.Body.String(), "10")
 	})
 }
