@@ -26,6 +26,7 @@ func NewPlayerServer(store PlayerStore) *PlayerServer {
 
 	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
 	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
 	return p
 }
 
