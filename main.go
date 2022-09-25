@@ -20,6 +20,3 @@ func main() {
 	server := &PlayerServer{&InMemoryPlayerStore{}}
 	log.Fatal(http.ListenAndServe(":5001", server))
 }
-
-// Integration tests section
-// TODO https://quii.gitbook.io/learn-go-with-tests/build-an-application/http-server#integration-tests
